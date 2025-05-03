@@ -1,48 +1,85 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile
+import java.net.URI
+
+fun RepositoryHandler.kotlix(repo: String) = maven {
+	name = "GitHubPackages"
+	url = URI.create("https://maven.pkg.github.com/Kotlix/$repo")
+	credentials {
+		// picks from: .../user/.gradle/gradle.properties
+		username = System.getenv("GITHUB_ACTOR") ?: findProperty("GITHUB_LOGIN") as String?
+		password = System.getenv("GITHUB_TOKEN") ?: findProperty("GITHUB_TOKEN") as String?
+	}
+}
+
 plugins {
-	kotlin("jvm") version "1.9.25"
-	kotlin("plugin.spring") version "1.9.25"
-	id("org.springframework.boot") version "3.4.5"
-	id("io.spring.dependency-management") version "1.1.7"
+	kotlin("jvm") apply false
+	kotlin("plugin.spring") apply false
+	id("org.springframework.boot") apply false
+	id("org.jlleitschuh.gradle.ktlint") apply false
+	id("io.spring.dependency-management")
+	id("maven-publish")
 }
 
-group = "com.example"
-version = "0.0.1-SNAPSHOT"
+subprojects {
+	apply {
+		plugin("org.jetbrains.kotlin.jvm")
+		plugin("org.jetbrains.kotlin.plugin.spring")
+		plugin("org.springframework.boot")
+		plugin("io.spring.dependency-management")
+		plugin("org.jlleitschuh.gradle.ktlint")
+		plugin("maven-publish")
+	}
 
-java {
-	toolchain {
-		languageVersion = JavaLanguageVersion.of(17)
+	val springBootVersion: String by project
+	val springCloudVersion: String by project
+
+	val groupId: String by project
+	val versionIdNumber: String by project
+	val versionIdStatus: String by project
+
+	group = groupId
+	val versionId: String = if (versionIdStatus.isEmpty()) versionIdNumber else "$versionIdNumber-$versionIdStatus"
+	version = versionId
+
+	dependencyManagement {
+		imports {
+			mavenBom("org.springframework.boot:spring-boot-dependencies:$springBootVersion")
+			mavenBom("org.springframework.cloud:spring-cloud-dependencies:$springCloudVersion")
+		}
+
+		dependencies {
+			val springDocVersion: String by project
+			dependency("org.springdoc:springdoc-openapi-starter-webmvc-ui:$springDocVersion")
+		}
+	}
+
+	repositories {
+		mavenLocal()
+		mavenCentral()
+		kotlix("frame-state")
+		kotlix("frame-voice")
+		kotlix("frame-parties")
+	}
+
+	publishing {
+		publications {
+			create<MavenPublication>("maven") {
+				this.groupId = groupId
+				this.artifactId = project.name
+				this.version = versionId
+				from(components["java"])
+			}
+		}
+		repositories {
+			kotlix("frame-gateway")
+		}
 	}
 }
 
-configurations {
-	compileOnly {
-		extendsFrom(configurations.annotationProcessor.get())
-	}
-}
-
-repositories {
-	mavenCentral()
-}
-
-dependencies {
-	implementation("org.springframework.boot:spring-boot-starter-jdbc")
-	implementation("org.springframework.boot:spring-boot-starter-web")
-	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
-	implementation("org.jetbrains.kotlin:kotlin-reflect")
-	compileOnly("org.projectlombok:lombok")
-	runtimeOnly("org.postgresql:postgresql")
-	annotationProcessor("org.projectlombok:lombok")
-	testImplementation("org.springframework.boot:spring-boot-starter-test")
-	testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
-	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
-}
-
-kotlin {
+tasks.withType<KotlinJvmCompile>().configureEach {
 	compilerOptions {
-		freeCompilerArgs.addAll("-Xjsr305=strict")
+		jvmTarget.set(JvmTarget.JVM_17)
+		freeCompilerArgs.add("-Xjsr305=strict")
 	}
-}
-
-tasks.withType<Test> {
-	useJUnitPlatform()
 }
