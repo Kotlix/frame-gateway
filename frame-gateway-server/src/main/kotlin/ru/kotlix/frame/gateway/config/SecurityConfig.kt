@@ -35,33 +35,37 @@ class SecurityConfig {
         ProviderManager(authenticationProvider)
 
     @Bean
-    fun filter(authenticationManager: AuthenticationManager) =
-        TokenAuthenticationFilter(AntPathRequestMatcher("/api/v1/**"), authenticationManager)
-
-    @Bean
     fun filterChain(
         http: HttpSecurity,
         authenticationProvider: TokenAuthenticationProvider,
-        authenticationFilter: TokenAuthenticationFilter,
+        authenticationManager: AuthenticationManager,
     ): SecurityFilterChain {
-        val filterChain =
-            http
-                .cors { it.disable() }
-                .csrf { it.disable() }
-                .formLogin { it.disable() }
-                .logout { it.disable() }
-                .sessionManagement {
-                    it.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                }
-                .authenticationProvider(authenticationProvider)
-                .addFilterBefore(authenticationFilter, AnonymousAuthenticationFilter::class.java)
-                .authorizeHttpRequests {
-                    it.requestMatchers("/api/v1/**").authenticated()
-                }
-                .exceptionHandling {
-                    it.authenticationEntryPoint(TokenAuthenticationExceptionHandler())
-                }
+        val securedPath = "/api/v1/**"
 
-        return filterChain.build()
+        val filter =
+            TokenAuthenticationFilter(
+                AntPathRequestMatcher(securedPath),
+                authenticationManager,
+            )
+
+        return http
+            .cors { it.disable() }
+            .csrf { it.disable() }
+            .formLogin { it.disable() }
+            .logout { it.disable() }
+            .sessionManagement {
+                it.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+            }
+            .authenticationProvider(authenticationProvider)
+            .addFilterBefore(filter, AnonymousAuthenticationFilter::class.java)
+            .authorizeHttpRequests {
+                it.requestMatchers(securedPath).authenticated()
+            }
+            .authorizeHttpRequests {
+                it.anyRequest().permitAll()
+            }
+            .exceptionHandling {
+                it.authenticationEntryPoint(TokenAuthenticationExceptionHandler())
+            }.build()
     }
 }
