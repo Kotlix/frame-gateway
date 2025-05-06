@@ -16,7 +16,7 @@ import ru.kotlix.frame.auth.token.JWSTokenDecoder
 import ru.kotlix.frame.gateway.security.TokenAuthenticationExceptionHandler
 import ru.kotlix.frame.gateway.security.TokenAuthenticationProvider
 import ru.kotlix.frame.gateway.service.AuthenticationService
-import ru.kotlix.frame.parties.server.security.TokenAuthenticationFilter
+import ru.kotlix.frame.gateway.security.TokenAuthenticationFilter
 import ru.kotlix.frame.auth.api.token.dto.UserInfo as AuthUserInfo
 
 @Configuration
@@ -43,8 +43,8 @@ class SecurityConfig {
         http: HttpSecurity,
         authenticationProvider: TokenAuthenticationProvider,
         authenticationFilter: TokenAuthenticationFilter,
-    ): SecurityFilterChain =
-        http
+    ): SecurityFilterChain {
+        val filterChain = http
             .cors { it.disable() }
             .csrf { it.disable() }
             .formLogin { it.disable() }
@@ -53,11 +53,14 @@ class SecurityConfig {
                 it.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             }
             .authenticationProvider(authenticationProvider)
-            .addFilterBefore(authenticationFilter, AnonymousAuthenticationFilter::class.java).authorizeHttpRequests {
+            .addFilterBefore(authenticationFilter, AnonymousAuthenticationFilter::class.java)
+            .authorizeHttpRequests {
                 it.requestMatchers("/api/v1/**").authenticated()
             }
             .exceptionHandling {
                 it.authenticationEntryPoint(TokenAuthenticationExceptionHandler())
             }
-            .build()
+
+        return filterChain.build()
+    }
 }

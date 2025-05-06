@@ -1,4 +1,4 @@
-package ru.kotlix.frame.parties.server.security
+package ru.kotlix.frame.gateway.security
 
 import jakarta.servlet.FilterChain
 import jakarta.servlet.http.HttpServletRequest
