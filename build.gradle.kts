@@ -51,6 +51,19 @@ subprojects {
 		dependencies {
 			val springDocVersion: String by project
 			dependency("org.springdoc:springdoc-openapi-starter-webmvc-ui:$springDocVersion")
+
+			val framePartiesVersion: String by project
+			dependency("ru.kotlix:frame-parties-client-starter:$framePartiesVersion")
+
+			val frameVoiceVersion: String by project
+			dependency("ru.kotlix:frame-voice-client-starter:$frameVoiceVersion")
+
+			val frameAuthVersion: String by project
+			dependency("ru.kotlix:frame-auth-client-starter:$frameAuthVersion")
+			dependency("ru.kotlix:frame-auth-api:$frameAuthVersion")
+
+			val frameStateVersion: String by project
+			dependency("ru.kotlix:frame-state-client-starter:$frameStateVersion")
 		}
 	}
 
@@ -60,6 +73,7 @@ subprojects {
 		kotlix("frame-state")
 		kotlix("frame-voice")
 		kotlix("frame-parties")
+		kotlix("frame-auth")
 	}
 
 	publishing {

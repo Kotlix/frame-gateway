@@ -1,0 +1,23 @@
+spring:
+  cloud:
+    openfeign:
+      client:
+        config:
+          frame-voice-client:
+            url: http://localhost:8083
+          frame-state-client:
+            url: http://localhost:8083
+          frame-auth-client:
+            url: http://localhost:8083
+          frame-parties-chat-client:
+            url: http://localhost:8083
+          frame-parties-community-client:
+            url: http://localhost:8083
+          frame-parties-directory-client:
+            url: http://localhost:8083
+          frame-parties-message-client:
+            url: http://localhost:8083
+          frame-parties-role-client:
+            url: http://localhost:8083
+          frame-parties-voice-client:
+            url: http://localhost:8083
