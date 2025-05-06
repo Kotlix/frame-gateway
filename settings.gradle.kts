@@ -22,5 +22,4 @@ pluginManagement {
 
 include("frame-gateway-api")
 include("frame-gateway-client")
-include("frame-gateway-client-starter")
 include("frame-gateway-server")

@@ -1,0 +1,26 @@
+server:
+  port: 8080
+
+spring:
+  cloud:
+    openfeign:
+      client:
+        config:
+          frame-voice-client:
+            url: ${KTX_VOICE_SVC_URL}
+          frame-state-client:
+            url: ${KTX_STATE_SVC_URL}
+          frame-auth-client:
+            url: ${KTX_AUTH_SVC_URL}
+          frame-parties-chat-client:
+            url: ${KTX_PARTIES_SVC_URL}
+          frame-parties-community-client:
+            url: ${KTX_PARTIES_SVC_URL}
+          frame-parties-directory-client:
+            url: ${KTX_PARTIES_SVC_URL}
+          frame-parties-message-client:
+            url: ${KTX_PARTIES_SVC_URL}
+          frame-parties-role-client:
+            url: ${KTX_PARTIES_SVC_URL}
+          frame-parties-voice-client:
+            url: ${KTX_PARTIES_SVC_URL}

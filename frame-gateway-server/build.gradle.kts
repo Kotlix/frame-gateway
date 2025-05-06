@@ -27,3 +27,7 @@ tasks.getByName<BootJar>("bootJar") {
 tasks.getByName<Jar>("jar") {
     enabled = false
 }
+
+tasks.withType<PublishToMavenRepository> {
+    enabled = false
+}
