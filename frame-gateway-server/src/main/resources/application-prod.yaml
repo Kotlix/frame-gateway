@@ -7,20 +7,20 @@ spring:
       client:
         config:
           frame-voice-client:
-            url: ${KTX_VOICE_SVC_URL}
+            url: http://frame-voice:8080
           frame-state-client:
-            url: ${KTX_STATE_SVC_URL}
+            url: http://frame-state:8080
           frame-auth-client:
-            url: ${KTX_AUTH_SVC_URL}
+            url: http://frame-auth:8080
           frame-parties-chat-client:
-            url: ${KTX_PARTIES_SVC_URL}
+            url: http://frame-parties:8080
           frame-parties-community-client:
-            url: ${KTX_PARTIES_SVC_URL}
+            url: http://frame-parties:8080
           frame-parties-directory-client:
-            url: ${KTX_PARTIES_SVC_URL}
+            url: http://frame-parties:8080
           frame-parties-message-client:
-            url: ${KTX_PARTIES_SVC_URL}
+            url: http://frame-parties:8080
           frame-parties-role-client:
-            url: ${KTX_PARTIES_SVC_URL}
+            url: http://frame-parties:8080
           frame-parties-voice-client:
-            url: ${KTX_PARTIES_SVC_URL}
+            url: http://frame-parties:8080

@@ -21,22 +21,6 @@ on:
         required: true
         type: string
         default: 'frame-gateway'
-      voice_svc_url:
-        description: 'Frame-voice k8s url'
-        required: true
-        type: string
-      state_svc_url:
-        description: 'Frame-state k8s url'
-        required: true
-        type: string
-      auth_svc_url:
-        description: 'Frame-auth k8s url'
-        required: true
-        type: string
-      parties_svc_url:
-        description: 'Frame-parties k8s url'
-        required: true
-        type: string
       svc_port:
         description: 'K8S service port'
         required: true
@@ -60,11 +44,6 @@ env:
   KTX_SVC_PORT: ${{ inputs.svc_port }}
   KTX_IMAGE_NAME: ${{ inputs.image_name }}
   KTX_IMAGE_VERSION: ${{ inputs.image_version }}
-  # Siblings
-  KTX_VOICE_SVC_URL: ${{ inputs.voice_svc_url }}
-  KTX_STATE_SVC_URL: ${{ inputs.state_svc_url }}
-  KTX_AUTH_SVC_URL: ${{ inputs.auth_svc_url }}
-  KTX_PARTIES_SVC_URL: ${{ inputs.parties_svc_url }}
 
 jobs:
   deploy:
