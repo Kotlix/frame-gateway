@@ -22,13 +22,7 @@ interface GatewayVoiceApi {
 
     fun deleteVoice(id: Long)
 
-    fun joinVoice(
-        id: Long,
-        userId: Long,
-    ): GatewayConnectionGuide
+    fun joinVoice(id: Long): GatewayConnectionGuide
 
-    fun leaveVoice(
-        id: Long,
-        userId: Long,
-    )
+    fun leaveVoice(id: Long)
 }

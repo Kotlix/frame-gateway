@@ -30,7 +30,7 @@ class CommunityController(
 ) : GatewayCommunityApi {
     @GetMapping("/community/{communityId}")
     override fun getById(
-        @PathVariable
+        @PathVariable("communityId")
         communityId: Long,
     ): GatewayCommunityDto {
         val userInfo = SecurityContextHolder.getContext().authentication.principal as UserInfo
@@ -48,10 +48,10 @@ class CommunityController(
 
     @PutMapping("/community/{communityId}")
     override fun update(
+        @PathVariable("communityId")
+        communityId: Long,
         @RequestBody
         request: GatewayUpdateCommunityRequest,
-        @PathVariable
-        communityId: Long,
     ): GatewayCommunityDto {
         val userInfo = SecurityContextHolder.getContext().authentication.principal as UserInfo
         return communityApi.update(userInfo.id, communityId, request.toDto()).toApi()
@@ -59,7 +59,7 @@ class CommunityController(
 
     @DeleteMapping("/community/{communityId}")
     override fun delete(
-        @PathVariable
+        @PathVariable("communityId")
         communityId: Long,
     ) {
         val userInfo = SecurityContextHolder.getContext().authentication.principal as UserInfo
@@ -68,15 +68,15 @@ class CommunityController(
 
     @GetMapping("/all-communities")
     override fun findAllPublicWithFilter(
-        @RequestParam(required = false)
+        @RequestParam("q", required = false)
         name: String?,
-        @RequestParam
-        pageOffset: Long,
-        @RequestParam
-        pageCount: Long,
+        @RequestParam("page")
+        page: Long,
+        @RequestParam("size")
+        size: Long,
     ): List<GatewayCommunityDto> {
         val userInfo = SecurityContextHolder.getContext().authentication.principal as UserInfo
-        return communityApi.findAllPublicWithFilter(userInfo.id, name, pageOffset, pageCount).map { it.toApi() }
+        return communityApi.findAllPublicWithFilter(userInfo.id, name, page, size).map { it.toApi() }
     }
 
     @GetMapping("/my-communities")
@@ -85,36 +85,36 @@ class CommunityController(
         return communityApi.findAllByUserId(userInfo.id).map { it.toApi() }
     }
 
-    @GetMapping("/community-members/{communityId}")
+    @GetMapping("/community/{communityId}/members")
     override fun getMembers(
-        @PathVariable
+        @PathVariable("communityId")
         communityId: Long,
     ): List<GatewayMemberDto> {
         val userInfo = SecurityContextHolder.getContext().authentication.principal as UserInfo
         return communityApi.getMembers(userInfo.id, communityId).map { it.toApi() }
     }
 
-    @PostMapping("/community-join")
+    @PostMapping("/community/{communityId}/join")
     override fun joinCommunity(
-        @RequestParam
+        @PathVariable("communityId")
         communityId: Long,
     ) {
         val userInfo = SecurityContextHolder.getContext().authentication.principal as UserInfo
         communityApi.joinCommunity(userInfo.id, communityId)
     }
 
-    @PostMapping("/community-leave")
+    @PostMapping("/community/{communityId}/leave")
     override fun leaveCommunity(
-        @RequestParam
+        @PathVariable("communityId")
         communityId: Long,
     ) {
         val userInfo = SecurityContextHolder.getContext().authentication.principal as UserInfo
         communityApi.leaveCommunity(userInfo.id, communityId)
     }
 
-    @PostMapping("/community-token/{communityId}")
+    @PostMapping("/community/{communityId}/token")
     override fun createInviteToken(
-        @PathVariable
+        @PathVariable("communityId")
         communityId: Long,
         @RequestBody
         request: GatewayCreateTokenRequest,

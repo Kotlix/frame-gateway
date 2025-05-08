@@ -16,7 +16,6 @@ import ru.kotlix.frame.gateway.api.dto.requests.GatewayCreateDirectoryRequest
 import ru.kotlix.frame.gateway.api.dto.requests.GatewayCreateRoleRequest
 import ru.kotlix.frame.gateway.api.dto.requests.GatewayCreateTokenRequest
 import ru.kotlix.frame.gateway.api.dto.requests.GatewayCreateVoiceRequest
-import ru.kotlix.frame.gateway.api.dto.requests.GatewayFindMessagesRequest
 import ru.kotlix.frame.gateway.api.dto.requests.GatewayJoinByTokenRequest
 import ru.kotlix.frame.gateway.api.dto.requests.GatewaySendMessageRequest
 import ru.kotlix.frame.gateway.api.dto.requests.GatewayUpdateChatRequest
@@ -39,7 +38,6 @@ import ru.kotlix.frame.parties.api.dto.requests.CreateDirectoryRequest
 import ru.kotlix.frame.parties.api.dto.requests.CreateRoleRequest
 import ru.kotlix.frame.parties.api.dto.requests.CreateTokenRequest
 import ru.kotlix.frame.parties.api.dto.requests.CreateVoiceRequest
-import ru.kotlix.frame.parties.api.dto.requests.FindMessagesRequest
 import ru.kotlix.frame.parties.api.dto.requests.JoinByTokenRequest
 import ru.kotlix.frame.parties.api.dto.requests.SendMessageRequest
 import ru.kotlix.frame.parties.api.dto.requests.UpdateChatRequest
@@ -207,13 +205,6 @@ fun GatewayCreateDirectoryRequest.toDto() =
 fun GatewaySendMessageRequest.toDto() =
     SendMessageRequest(
         message = message,
-    )
-
-fun GatewayFindMessagesRequest.toDto() =
-    FindMessagesRequest(
-        name = name,
-        pageOffset = pageOffset,
-        pageCount = pageCount,
     )
 
 fun RoleDto.toApi() =

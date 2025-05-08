@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 import ru.kotlix.frame.gateway.api.GatewayVoiceApi
 import ru.kotlix.frame.gateway.api.dto.entities.GatewayConnectionGuide
@@ -67,21 +66,21 @@ class VoiceController(
         return voiceApi.deleteVoice(userInfo.id, id)
     }
 
-    @PostMapping("/voice-join")
+    @PostMapping("/voice/{id}/join")
     override fun joinVoice(
-        @RequestParam id: Long,
-        @RequestParam userId: Long,
+        @PathVariable("id")
+        id: Long,
     ): GatewayConnectionGuide {
         val userInfo = SecurityContextHolder.getContext().authentication.principal as UserInfo
-        return voiceApi.joinVoice(userInfo.id, id, userId).toApi()
+        return voiceApi.joinVoice(userInfo.id, id).toApi()
     }
 
-    @PostMapping("/voice-leave")
+    @PostMapping("/voice/{id}/leave")
     override fun leaveVoice(
-        @RequestParam id: Long,
-        @RequestParam userId: Long,
+        @PathVariable("id")
+        id: Long,
     ) {
         val userInfo = SecurityContextHolder.getContext().authentication.principal as UserInfo
-        return voiceApi.leaveVoice(userInfo.id, id, userId)
+        return voiceApi.leaveVoice(userInfo.id, id)
     }
 }

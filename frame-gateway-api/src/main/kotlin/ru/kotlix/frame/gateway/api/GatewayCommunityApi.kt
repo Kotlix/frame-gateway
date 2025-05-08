@@ -14,16 +14,16 @@ interface GatewayCommunityApi {
     fun create(dto: GatewayCreateCommunityRequest): GatewayCommunityDto
 
     fun update(
-        request: GatewayUpdateCommunityRequest,
         communityId: Long,
+        request: GatewayUpdateCommunityRequest,
     ): GatewayCommunityDto
 
     fun delete(communityId: Long)
 
     fun findAllPublicWithFilter(
         name: String?,
-        pageOffset: Long,
-        pageCount: Long,
+        page: Long,
+        size: Long,
     ): List<GatewayCommunityDto>
 
     fun findAllMine(): List<GatewayCommunityDto>

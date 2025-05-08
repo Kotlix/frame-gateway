@@ -1,7 +1,6 @@
 package ru.kotlix.frame.gateway.api
 
 import ru.kotlix.frame.gateway.api.dto.entities.GatewayMessageDto
-import ru.kotlix.frame.gateway.api.dto.requests.GatewayFindMessagesRequest
 import ru.kotlix.frame.gateway.api.dto.requests.GatewaySendMessageRequest
 
 interface GatewayMessageApi {
@@ -12,7 +11,8 @@ interface GatewayMessageApi {
 
     fun getMessages(
         chatId: Long,
-        request: GatewayFindMessagesRequest,
+        page: Long,
+        size: Long,
     ): List<GatewayMessageDto>
 
     fun getById(messageId: Long): GatewayMessageDto
