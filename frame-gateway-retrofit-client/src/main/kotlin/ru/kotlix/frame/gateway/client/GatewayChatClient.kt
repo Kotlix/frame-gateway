@@ -1,12 +1,12 @@
 package ru.kotlix.frame.gateway.client
 
+import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.PUT
 import retrofit2.http.Path
-import retrofit2.Response
 import ru.kotlix.frame.gateway.api.dto.entities.GatewayChatDto
 import ru.kotlix.frame.gateway.api.dto.requests.GatewayCreateChatRequest
 import ru.kotlix.frame.gateway.api.dto.requests.GatewayUpdateChatRequest
