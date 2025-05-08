@@ -64,6 +64,9 @@ subprojects {
 
 			val frameStateVersion: String by project
 			dependency("ru.kotlix:frame-state-client-starter:$frameStateVersion")
+
+			val retrofit2Version: String by project
+			dependency("com.squareup.retrofit2:retrofit:${retrofit2Version}")
 		}
 	}
 

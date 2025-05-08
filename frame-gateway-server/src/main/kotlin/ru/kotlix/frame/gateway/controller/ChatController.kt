@@ -19,7 +19,7 @@ import ru.kotlix.frame.gateway.service.dto.UserInfo
 import ru.kotlix.frame.parties.client.PartiesChatClient
 
 @RestController
-@RequestMapping("/api/v1/chat")
+@RequestMapping("/api/v1")
 class ChatController(
     val chatApi: PartiesChatClient,
 ) : GatewayChatApi {

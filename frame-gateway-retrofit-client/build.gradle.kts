@@ -1,7 +1,9 @@
 import org.springframework.boot.gradle.tasks.bundling.BootJar
 
 dependencies {
-    api("org.springframework.boot:spring-boot-starter-validation")
+    api(project(":frame-gateway-api"))
+
+    implementation("com.squareup.retrofit2:retrofit")
 }
 
 tasks.getByName<BootJar>("bootJar") {

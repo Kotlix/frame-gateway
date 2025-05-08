@@ -21,5 +21,5 @@ pluginManagement {
 }
 
 include("frame-gateway-api")
-include("frame-gateway-client")
+include("frame-gateway-retrofit-client")
 include("frame-gateway-server")
