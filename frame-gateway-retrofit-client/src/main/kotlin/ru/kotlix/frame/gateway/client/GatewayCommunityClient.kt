@@ -1,7 +1,14 @@
 package ru.kotlix.frame.gateway.client
 
 import retrofit2.Response
-import retrofit2.http.*
+import retrofit2.http.Body
+import retrofit2.http.DELETE
+import retrofit2.http.GET
+import retrofit2.http.Header
+import retrofit2.http.POST
+import retrofit2.http.PUT
+import retrofit2.http.Path
+import retrofit2.http.Query
 import ru.kotlix.frame.gateway.api.dto.entities.GatewayCommunityDto
 import ru.kotlix.frame.gateway.api.dto.entities.GatewayInviteTokenDto
 import ru.kotlix.frame.gateway.api.dto.entities.GatewayMemberDto
@@ -60,7 +67,7 @@ interface GatewayCommunityClient {
     @GET("/api/v1/my-communities")
     suspend fun findAllMine(
         @Header("Authorization")
-        token: String
+        token: String,
     ): Response<List<GatewayCommunityDto>>
 
     @GET("/api/v1/community/{communityId}/members")
