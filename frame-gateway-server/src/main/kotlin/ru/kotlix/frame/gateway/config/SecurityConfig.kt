@@ -44,15 +44,13 @@ class SecurityConfig {
     ): SecurityFilterChain {
         val insecurePath = "/api/v1/auth/**"
         val securedPath = "/api/v1/**"
-
-        val filter =
-            TokenAuthenticationFilter(
-                AndRequestMatcher(
-                    AntPathRequestMatcher(securedPath),
-                    NegatedRequestMatcher(AntPathRequestMatcher(insecurePath)),
-                ),
-                authenticationManager,
+        val requestMatcher =
+            AndRequestMatcher(
+                AntPathRequestMatcher(securedPath),
+                NegatedRequestMatcher(AntPathRequestMatcher(insecurePath)),
             )
+        val filter =
+            TokenAuthenticationFilter(requestMatcher, authenticationManager)
 
         return http
             .cors { it.disable() }
@@ -65,8 +63,7 @@ class SecurityConfig {
             .authenticationProvider(authenticationProvider)
             .addFilterBefore(filter, AnonymousAuthenticationFilter::class.java)
             .authorizeHttpRequests {
-                it.requestMatchers(securedPath).authenticated()
-                    .requestMatchers(insecurePath).permitAll()
+                it.requestMatchers(requestMatcher).authenticated()
             }
             .authorizeHttpRequests {
                 it.anyRequest().permitAll()
