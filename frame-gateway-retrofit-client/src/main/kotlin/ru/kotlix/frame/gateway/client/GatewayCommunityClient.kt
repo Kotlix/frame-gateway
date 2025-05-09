@@ -1,13 +1,7 @@
 package ru.kotlix.frame.gateway.client
 
 import retrofit2.Response
-import retrofit2.http.Body
-import retrofit2.http.DELETE
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.PUT
-import retrofit2.http.Path
-import retrofit2.http.Query
+import retrofit2.http.*
 import ru.kotlix.frame.gateway.api.dto.entities.GatewayCommunityDto
 import ru.kotlix.frame.gateway.api.dto.entities.GatewayInviteTokenDto
 import ru.kotlix.frame.gateway.api.dto.entities.GatewayMemberDto
@@ -19,18 +13,24 @@ import ru.kotlix.frame.gateway.api.dto.requests.GatewayUpdateCommunityRequest
 interface GatewayCommunityClient {
     @GET("/api/v1/community/{communityId}")
     suspend fun getById(
+        @Header("Authorization")
+        token: String,
         @Path("communityId")
         communityId: Long,
     ): Response<GatewayCommunityDto>
 
     @POST("/api/v1/community")
     suspend fun create(
+        @Header("Authorization")
+        token: String,
         @Body
         dto: GatewayCreateCommunityRequest,
     ): Response<GatewayCommunityDto>
 
     @PUT("/api/v1/community/{communityId}")
     suspend fun update(
+        @Header("Authorization")
+        token: String,
         @Path("communityId")
         communityId: Long,
         @Body
@@ -39,12 +39,16 @@ interface GatewayCommunityClient {
 
     @DELETE("/api/v1/community/{communityId}")
     suspend fun delete(
+        @Header("Authorization")
+        token: String,
         @Path("communityId")
         communityId: Long,
     ): Response<Void>
 
     @GET("/api/v1/all-communities")
     suspend fun findAllPublicWithFilter(
+        @Header("Authorization")
+        token: String,
         @Query("q")
         name: String?,
         @Query("page")
@@ -54,28 +58,39 @@ interface GatewayCommunityClient {
     ): Response<List<GatewayCommunityDto>>
 
     @GET("/api/v1/my-communities")
-    suspend fun findAllMine(): Response<List<GatewayCommunityDto>>
+    suspend fun findAllMine(
+        @Header("Authorization")
+        token: String
+    ): Response<List<GatewayCommunityDto>>
 
     @GET("/api/v1/community/{communityId}/members")
     suspend fun getMembers(
+        @Header("Authorization")
+        token: String,
         @Path("communityId")
         communityId: Long,
     ): Response<List<GatewayMemberDto>>
 
     @POST("/api/v1/community/{communityId}/join")
     suspend fun joinCommunity(
+        @Header("Authorization")
+        token: String,
         @Path("communityId")
         communityId: Long,
     ): Response<Void>
 
     @POST("/api/v1/community/{communityId}/leave")
     suspend fun leaveCommunity(
+        @Header("Authorization")
+        token: String,
         @Path("communityId")
         communityId: Long,
     ): Response<Void>
 
     @POST("/api/v1/community/{communityId}/token")
     suspend fun createInviteToken(
+        @Header("Authorization")
+        token: String,
         @Path("communityId")
         communityId: Long,
         @Body
@@ -84,6 +99,8 @@ interface GatewayCommunityClient {
 
     @POST("/api/v1/community-join-token")
     suspend fun joinByInviteToken(
+        @Header("Authorization")
+        token: String,
         @Body
         request: GatewayJoinByTokenRequest,
     ): Response<Void>
