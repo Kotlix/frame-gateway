@@ -1,7 +1,12 @@
 package ru.kotlix.frame.gateway.client
 
 import retrofit2.Response
-import retrofit2.http.*
+import retrofit2.http.Body
+import retrofit2.http.GET
+import retrofit2.http.Header
+import retrofit2.http.POST
+import retrofit2.http.Path
+import retrofit2.http.Query
 import ru.kotlix.frame.gateway.api.dto.entities.GatewayMessageDto
 import ru.kotlix.frame.gateway.api.dto.requests.GatewaySendMessageRequest
 

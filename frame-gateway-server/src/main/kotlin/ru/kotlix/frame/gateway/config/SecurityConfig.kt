@@ -10,7 +10,9 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.web.SecurityFilterChain
 import org.springframework.security.web.authentication.AnonymousAuthenticationFilter
+import org.springframework.security.web.util.matcher.AndRequestMatcher
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher
+import org.springframework.security.web.util.matcher.NegatedRequestMatcher
 import ru.kotlix.frame.auth.api.token.TokenDecoder
 import ru.kotlix.frame.auth.token.JWSTokenDecoder
 import ru.kotlix.frame.gateway.security.TokenAuthenticationExceptionHandler
@@ -40,11 +42,15 @@ class SecurityConfig {
         authenticationProvider: TokenAuthenticationProvider,
         authenticationManager: AuthenticationManager,
     ): SecurityFilterChain {
+        val insecurePath = "/api/v1/auth/**"
         val securedPath = "/api/v1/**"
 
         val filter =
             TokenAuthenticationFilter(
-                AntPathRequestMatcher(securedPath),
+                AndRequestMatcher(
+                    AntPathRequestMatcher(securedPath),
+                    NegatedRequestMatcher(AntPathRequestMatcher(insecurePath)),
+                ),
                 authenticationManager,
             )
 
@@ -60,6 +66,7 @@ class SecurityConfig {
             .addFilterBefore(filter, AnonymousAuthenticationFilter::class.java)
             .authorizeHttpRequests {
                 it.requestMatchers(securedPath).authenticated()
+                    .requestMatchers(insecurePath).permitAll()
             }
             .authorizeHttpRequests {
                 it.anyRequest().permitAll()

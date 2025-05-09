@@ -1,15 +1,29 @@
 package ru.kotlix.frame.gateway.mapper
 
+import ru.kotlix.frame.auth.api.dto.BasicLoginRequest
+import ru.kotlix.frame.auth.api.dto.BasicRegisterRequest
+import ru.kotlix.frame.auth.api.dto.ChangeEmailRequest
+import ru.kotlix.frame.auth.api.dto.ChangePasswordRequest
+import ru.kotlix.frame.auth.api.dto.ChangeUsernameRequest
+import ru.kotlix.frame.auth.api.dto.FullProfileInfoDto
+import ru.kotlix.frame.auth.api.dto.ProfileInfoDto
 import ru.kotlix.frame.gateway.api.dto.GatewayUserState
 import ru.kotlix.frame.gateway.api.dto.entities.GatewayChatDto
 import ru.kotlix.frame.gateway.api.dto.entities.GatewayCommunityDto
 import ru.kotlix.frame.gateway.api.dto.entities.GatewayConnectionGuide
 import ru.kotlix.frame.gateway.api.dto.entities.GatewayDirectoryDto
+import ru.kotlix.frame.gateway.api.dto.entities.GatewayFullProfileInfoDto
 import ru.kotlix.frame.gateway.api.dto.entities.GatewayInviteTokenDto
 import ru.kotlix.frame.gateway.api.dto.entities.GatewayMemberDto
 import ru.kotlix.frame.gateway.api.dto.entities.GatewayMessageDto
+import ru.kotlix.frame.gateway.api.dto.entities.GatewayProfileInfoDto
 import ru.kotlix.frame.gateway.api.dto.entities.GatewayRoleDto
 import ru.kotlix.frame.gateway.api.dto.entities.GatewayVoiceDto
+import ru.kotlix.frame.gateway.api.dto.requests.GatewayBasicLoginRequest
+import ru.kotlix.frame.gateway.api.dto.requests.GatewayBasicRegisterRequest
+import ru.kotlix.frame.gateway.api.dto.requests.GatewayChangeEmailRequest
+import ru.kotlix.frame.gateway.api.dto.requests.GatewayChangePasswordRequest
+import ru.kotlix.frame.gateway.api.dto.requests.GatewayChangeUsernameRequest
 import ru.kotlix.frame.gateway.api.dto.requests.GatewayCreateChatRequest
 import ru.kotlix.frame.gateway.api.dto.requests.GatewayCreateCommunityRequest
 import ru.kotlix.frame.gateway.api.dto.requests.GatewayCreateDirectoryRequest
@@ -228,4 +242,45 @@ fun GatewayUpdateRoleRequest.toDto() =
         roleName = roleName,
         priority = priority,
         rights = rights,
+    )
+
+fun GatewayBasicLoginRequest.toDto() =
+    BasicLoginRequest(
+        login = login,
+        password = password,
+    )
+
+fun GatewayBasicRegisterRequest.toDto() =
+    BasicRegisterRequest(
+        login = login,
+        password = password,
+        username = username,
+        email = email,
+    )
+
+fun GatewayChangeEmailRequest.toDto() =
+    ChangeEmailRequest(
+        newEmail = newEmail,
+    )
+
+fun GatewayChangeUsernameRequest.toDto() =
+    ChangeUsernameRequest(
+        newUsername = newUsername,
+    )
+
+fun GatewayChangePasswordRequest.toDto() =
+    ChangePasswordRequest(
+        newPassword = newPassword,
+    )
+
+fun FullProfileInfoDto.toApi() =
+    GatewayFullProfileInfoDto(
+        login = login,
+        username = username,
+        email = email,
+    )
+
+fun ProfileInfoDto.toApi() =
+    GatewayProfileInfoDto(
+        username = username,
     )
