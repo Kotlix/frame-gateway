@@ -275,6 +275,7 @@ fun GatewayChangePasswordRequest.toDto() =
 
 fun FullProfileInfoDto.toApi() =
     GatewayFullProfileInfoDto(
+        id = id,
         login = login,
         username = username,
         email = email,
