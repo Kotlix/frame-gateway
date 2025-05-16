@@ -1,11 +1,14 @@
 package ru.kotlix.frame.gateway.controller
 
+import feign.FeignException
+import org.springframework.http.HttpStatusCode
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.server.ResponseStatusException
 import ru.kotlix.frame.auth.client.AuthClient
 import ru.kotlix.frame.gateway.api.GatewayAuthApi
 import ru.kotlix.frame.gateway.api.dto.requests.GatewayBasicLoginRequest
@@ -20,20 +23,37 @@ class AuthController(
     @PostMapping("/login")
     override fun basicLogin(
         @RequestBody request: GatewayBasicLoginRequest,
-    ): String = authClient.basicLogin(request.toDto())
+    ): String =
+        try {
+            authClient.basicLogin(request.toDto())
+        } catch (e: FeignException) {
+            throw ResponseStatusException(HttpStatusCode.valueOf(e.status()))
+        }
 
     @PostMapping("/register")
     override fun basicRegister(
         @RequestBody request: GatewayBasicRegisterRequest,
-    ) = authClient.basicRegister(request.toDto())
+    ) = try {
+        authClient.basicRegister(request.toDto())
+    } catch (e: FeignException) {
+        throw ResponseStatusException(HttpStatusCode.valueOf(e.status()))
+    }
 
     @GetMapping("/register-verify/{secret}")
     override fun verifyRegister(
         @PathVariable("secret") secret: String,
-    ) = authClient.verifyRegister(secret)
+    ) = try {
+        authClient.verifyRegister(secret)
+    } catch (e: FeignException) {
+        throw ResponseStatusException(HttpStatusCode.valueOf(e.status()))
+    }
 
     @PostMapping("/check/{token}")
     override fun checkAuth(
         @PathVariable("token") token: String,
-    ) = authClient.checkAuth(token)
+    ) = try {
+        authClient.checkAuth(token)
+    } catch (e: FeignException) {
+        throw ResponseStatusException(HttpStatusCode.valueOf(e.status()))
+    }
 }

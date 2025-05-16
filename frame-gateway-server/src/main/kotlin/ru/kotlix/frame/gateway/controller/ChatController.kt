@@ -1,5 +1,7 @@
 package ru.kotlix.frame.gateway.controller
 
+import feign.FeignException
+import org.springframework.http.HttpStatusCode
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
@@ -9,6 +11,7 @@ import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.server.ResponseStatusException
 import ru.kotlix.frame.gateway.api.GatewayChatApi
 import ru.kotlix.frame.gateway.api.dto.entities.GatewayChatDto
 import ru.kotlix.frame.gateway.api.dto.requests.GatewayCreateChatRequest
@@ -28,9 +31,13 @@ class ChatController(
         @PathVariable("communityId")
         communityId: Long,
     ): List<GatewayChatDto> {
-        val userInfo = SecurityContextHolder.getContext().authentication.principal as UserInfo
-        return chatApi.getAllChats(userInfo.id, communityId).map {
-            it.toApi()
+        try {
+            val userInfo = SecurityContextHolder.getContext().authentication.principal as UserInfo
+            return chatApi.getAllChats(userInfo.id, communityId).map {
+                it.toApi()
+            }
+        } catch (e: FeignException) {
+            throw ResponseStatusException(HttpStatusCode.valueOf(e.status()))
         }
     }
 
@@ -39,8 +46,12 @@ class ChatController(
         @PathVariable("id")
         id: Long,
     ): GatewayChatDto {
-        val userInfo = SecurityContextHolder.getContext().authentication.principal as UserInfo
-        return chatApi.getChatById(userInfo.id, id).toApi()
+        try {
+            val userInfo = SecurityContextHolder.getContext().authentication.principal as UserInfo
+            return chatApi.getChatById(userInfo.id, id).toApi()
+        } catch (e: FeignException) {
+            throw ResponseStatusException(HttpStatusCode.valueOf(e.status()))
+        }
     }
 
     @PostMapping("/community/{communityId}/chat")
@@ -50,8 +61,12 @@ class ChatController(
         @RequestBody
         request: GatewayCreateChatRequest,
     ): GatewayChatDto {
-        val userInfo = SecurityContextHolder.getContext().authentication.principal as UserInfo
-        return chatApi.createChat(userInfo.id, communityId, request.toDto()).toApi()
+        try {
+            val userInfo = SecurityContextHolder.getContext().authentication.principal as UserInfo
+            return chatApi.createChat(userInfo.id, communityId, request.toDto()).toApi()
+        } catch (e: FeignException) {
+            throw ResponseStatusException(HttpStatusCode.valueOf(e.status()))
+        }
     }
 
     @PutMapping("/chat/{id}")
@@ -61,15 +76,23 @@ class ChatController(
         @RequestBody
         request: GatewayUpdateChatRequest,
     ): GatewayChatDto {
-        val userInfo = SecurityContextHolder.getContext().authentication.principal as UserInfo
-        return chatApi.updateChat(userInfo.id, id, request.toDto()).toApi()
+        try {
+            val userInfo = SecurityContextHolder.getContext().authentication.principal as UserInfo
+            return chatApi.updateChat(userInfo.id, id, request.toDto()).toApi()
+        } catch (e: FeignException) {
+            throw ResponseStatusException(HttpStatusCode.valueOf(e.status()))
+        }
     }
 
     @DeleteMapping("/chat/{id}")
     override fun deleteChat(
         @PathVariable("id") id: Long,
     ) {
-        val userInfo = SecurityContextHolder.getContext().authentication.principal as UserInfo
-        return chatApi.deleteChat(userInfo.id, id)
+        try {
+            val userInfo = SecurityContextHolder.getContext().authentication.principal as UserInfo
+            return chatApi.deleteChat(userInfo.id, id)
+        } catch (e: FeignException) {
+            throw ResponseStatusException(HttpStatusCode.valueOf(e.status()))
+        }
     }
 }

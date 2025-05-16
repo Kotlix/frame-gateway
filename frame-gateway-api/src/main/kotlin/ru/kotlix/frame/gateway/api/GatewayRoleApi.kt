@@ -20,4 +20,14 @@ interface GatewayRoleApi {
     ): GatewayRoleDto
 
     fun deleteRole(id: Long)
+
+    fun assignRole(
+        targetId: Long,
+        id: Long,
+    )
+
+    fun unassignRole(
+        targetId: Long,
+        id: Long,
+    )
 }

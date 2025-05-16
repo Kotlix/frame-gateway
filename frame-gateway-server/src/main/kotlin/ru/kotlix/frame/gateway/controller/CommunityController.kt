@@ -1,5 +1,7 @@
 package ru.kotlix.frame.gateway.controller
 
+import feign.FeignException
+import org.springframework.http.HttpStatusCode
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.server.ResponseStatusException
 import ru.kotlix.frame.gateway.api.GatewayCommunityApi
 import ru.kotlix.frame.gateway.api.dto.entities.GatewayCommunityDto
 import ru.kotlix.frame.gateway.api.dto.entities.GatewayInviteTokenDto
@@ -33,8 +36,12 @@ class CommunityController(
         @PathVariable("communityId")
         communityId: Long,
     ): GatewayCommunityDto {
-        val userInfo = SecurityContextHolder.getContext().authentication.principal as UserInfo
-        return communityApi.getById(userInfo.id, communityId).toApi()
+        try {
+            val userInfo = SecurityContextHolder.getContext().authentication.principal as UserInfo
+            return communityApi.getById(userInfo.id, communityId).toApi()
+        } catch (e: FeignException) {
+            throw ResponseStatusException(HttpStatusCode.valueOf(e.status()))
+        }
     }
 
     @PostMapping("/community")
@@ -42,8 +49,12 @@ class CommunityController(
         @RequestBody
         dto: GatewayCreateCommunityRequest,
     ): GatewayCommunityDto {
-        val userInfo = SecurityContextHolder.getContext().authentication.principal as UserInfo
-        return communityApi.create(userInfo.id, dto.toDto()).toApi()
+        try {
+            val userInfo = SecurityContextHolder.getContext().authentication.principal as UserInfo
+            return communityApi.create(userInfo.id, dto.toDto()).toApi()
+        } catch (e: FeignException) {
+            throw ResponseStatusException(HttpStatusCode.valueOf(e.status()))
+        }
     }
 
     @PutMapping("/community/{communityId}")
@@ -53,8 +64,12 @@ class CommunityController(
         @RequestBody
         request: GatewayUpdateCommunityRequest,
     ): GatewayCommunityDto {
-        val userInfo = SecurityContextHolder.getContext().authentication.principal as UserInfo
-        return communityApi.update(userInfo.id, communityId, request.toDto()).toApi()
+        try {
+            val userInfo = SecurityContextHolder.getContext().authentication.principal as UserInfo
+            return communityApi.update(userInfo.id, communityId, request.toDto()).toApi()
+        } catch (e: FeignException) {
+            throw ResponseStatusException(HttpStatusCode.valueOf(e.status()))
+        }
     }
 
     @DeleteMapping("/community/{communityId}")
@@ -62,8 +77,12 @@ class CommunityController(
         @PathVariable("communityId")
         communityId: Long,
     ) {
-        val userInfo = SecurityContextHolder.getContext().authentication.principal as UserInfo
-        communityApi.delete(userInfo.id, communityId)
+        try {
+            val userInfo = SecurityContextHolder.getContext().authentication.principal as UserInfo
+            communityApi.delete(userInfo.id, communityId)
+        } catch (e: FeignException) {
+            throw ResponseStatusException(HttpStatusCode.valueOf(e.status()))
+        }
     }
 
     @GetMapping("/all-communities")
@@ -75,14 +94,22 @@ class CommunityController(
         @RequestParam("size")
         size: Long,
     ): List<GatewayCommunityDto> {
-        val userInfo = SecurityContextHolder.getContext().authentication.principal as UserInfo
-        return communityApi.findAllPublicWithFilter(userInfo.id, name, page, size).map { it.toApi() }
+        try {
+            val userInfo = SecurityContextHolder.getContext().authentication.principal as UserInfo
+            return communityApi.findAllPublicWithFilter(userInfo.id, name, page, size).map { it.toApi() }
+        } catch (e: FeignException) {
+            throw ResponseStatusException(HttpStatusCode.valueOf(e.status()))
+        }
     }
 
     @GetMapping("/my-communities")
     override fun findAllMine(): List<GatewayCommunityDto> {
-        val userInfo = SecurityContextHolder.getContext().authentication.principal as UserInfo
-        return communityApi.findAllByUserId(userInfo.id).map { it.toApi() }
+        try {
+            val userInfo = SecurityContextHolder.getContext().authentication.principal as UserInfo
+            return communityApi.findAllByUserId(userInfo.id).map { it.toApi() }
+        } catch (e: FeignException) {
+            throw ResponseStatusException(HttpStatusCode.valueOf(e.status()))
+        }
     }
 
     @GetMapping("/community/{communityId}/members")
@@ -90,8 +117,12 @@ class CommunityController(
         @PathVariable("communityId")
         communityId: Long,
     ): List<GatewayMemberDto> {
-        val userInfo = SecurityContextHolder.getContext().authentication.principal as UserInfo
-        return communityApi.getMembers(userInfo.id, communityId).map { it.toApi() }
+        try {
+            val userInfo = SecurityContextHolder.getContext().authentication.principal as UserInfo
+            return communityApi.getMembers(userInfo.id, communityId).map { it.toApi() }
+        } catch (e: FeignException) {
+            throw ResponseStatusException(HttpStatusCode.valueOf(e.status()))
+        }
     }
 
     @PostMapping("/community/{communityId}/join")
@@ -99,8 +130,12 @@ class CommunityController(
         @PathVariable("communityId")
         communityId: Long,
     ) {
-        val userInfo = SecurityContextHolder.getContext().authentication.principal as UserInfo
-        communityApi.joinCommunity(userInfo.id, communityId)
+        try {
+            val userInfo = SecurityContextHolder.getContext().authentication.principal as UserInfo
+            communityApi.joinCommunity(userInfo.id, communityId)
+        } catch (e: FeignException) {
+            throw ResponseStatusException(HttpStatusCode.valueOf(e.status()))
+        }
     }
 
     @PostMapping("/community/{communityId}/leave")
@@ -108,8 +143,12 @@ class CommunityController(
         @PathVariable("communityId")
         communityId: Long,
     ) {
-        val userInfo = SecurityContextHolder.getContext().authentication.principal as UserInfo
-        communityApi.leaveCommunity(userInfo.id, communityId)
+        try {
+            val userInfo = SecurityContextHolder.getContext().authentication.principal as UserInfo
+            communityApi.leaveCommunity(userInfo.id, communityId)
+        } catch (e: FeignException) {
+            throw ResponseStatusException(HttpStatusCode.valueOf(e.status()))
+        }
     }
 
     @PostMapping("/community/{communityId}/token")
@@ -119,8 +158,12 @@ class CommunityController(
         @RequestBody
         request: GatewayCreateTokenRequest,
     ): GatewayInviteTokenDto {
-        val userInfo = SecurityContextHolder.getContext().authentication.principal as UserInfo
-        return communityApi.createInviteToken(userInfo.id, communityId, request.toDto()).toApi()
+        try {
+            val userInfo = SecurityContextHolder.getContext().authentication.principal as UserInfo
+            return communityApi.createInviteToken(userInfo.id, communityId, request.toDto()).toApi()
+        } catch (e: FeignException) {
+            throw ResponseStatusException(HttpStatusCode.valueOf(e.status()))
+        }
     }
 
     @PostMapping("/community-join-token")
@@ -128,7 +171,11 @@ class CommunityController(
         @RequestBody
         request: GatewayJoinByTokenRequest,
     ) {
-        val userInfo = SecurityContextHolder.getContext().authentication.principal as UserInfo
-        communityApi.joinByInviteToken(userInfo.id, request.toDto())
+        try {
+            val userInfo = SecurityContextHolder.getContext().authentication.principal as UserInfo
+            communityApi.joinByInviteToken(userInfo.id, request.toDto())
+        } catch (e: FeignException) {
+            throw ResponseStatusException(HttpStatusCode.valueOf(e.status()))
+        }
     }
 }
