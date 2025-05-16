@@ -1,5 +1,7 @@
 package ru.kotlix.frame.gateway.controller
 
+import feign.FeignException
+import org.springframework.http.HttpStatusCode
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -8,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.server.ResponseStatusException
 import ru.kotlix.frame.gateway.api.GatewayMessageApi
 import ru.kotlix.frame.gateway.api.dto.entities.GatewayMessageDto
 import ru.kotlix.frame.gateway.api.dto.requests.GatewaySendMessageRequest
@@ -26,8 +29,12 @@ class MessageController(
         @PathVariable("chatId") chatId: Long,
         @RequestBody request: GatewaySendMessageRequest,
     ): GatewayMessageDto {
-        val userInfo = SecurityContextHolder.getContext().authentication.principal as UserInfo
-        return messageApi.sendMessage(userInfo.id, chatId, request.toDto()).toApi()
+        try {
+            val userInfo = SecurityContextHolder.getContext().authentication.principal as UserInfo
+            return messageApi.sendMessage(userInfo.id, chatId, request.toDto()).toApi()
+        } catch (e: FeignException) {
+            throw ResponseStatusException(HttpStatusCode.valueOf(e.status()))
+        }
     }
 
     @GetMapping("/chat/{chatId}/all")
@@ -39,15 +46,23 @@ class MessageController(
         @RequestParam("size")
         size: Long,
     ): List<GatewayMessageDto> {
-        val userInfo = SecurityContextHolder.getContext().authentication.principal as UserInfo
-        return messageApi.getMessages(userInfo.id, chatId, page, size).map { it.toApi() }
+        try {
+            val userInfo = SecurityContextHolder.getContext().authentication.principal as UserInfo
+            return messageApi.getMessages(userInfo.id, chatId, page, size).map { it.toApi() } 
+        } catch (e: FeignException) {
+            throw ResponseStatusException(HttpStatusCode.valueOf(e.status()))
+        }
     }
 
     @GetMapping("/chat-message/{id}")
     override fun getById(
         @PathVariable("id") messageId: Long,
     ): GatewayMessageDto {
-        val userInfo = SecurityContextHolder.getContext().authentication.principal as UserInfo
-        return messageApi.getById(userInfo.id, messageId).toApi()
+        try {
+            val userInfo = SecurityContextHolder.getContext().authentication.principal as UserInfo
+            return messageApi.getById(userInfo.id, messageId).toApi()
+        } catch (e: FeignException) {
+            throw ResponseStatusException(HttpStatusCode.valueOf(e.status()))
+        }
     }
 }
