@@ -48,7 +48,7 @@ class MessageController(
     ): List<GatewayMessageDto> {
         try {
             val userInfo = SecurityContextHolder.getContext().authentication.principal as UserInfo
-            return messageApi.getMessages(userInfo.id, chatId, page, size).map { it.toApi() } 
+            return messageApi.getMessages(userInfo.id, chatId, page, size).map { it.toApi() }
         } catch (e: FeignException) {
             throw ResponseStatusException(HttpStatusCode.valueOf(e.status()))
         }

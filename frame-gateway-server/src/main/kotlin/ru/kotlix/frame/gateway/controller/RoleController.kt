@@ -32,7 +32,7 @@ class RoleController(
     ): List<GatewayRoleDto> {
         try {
             val userInfo = SecurityContextHolder.getContext().authentication.principal as UserInfo
-            return roleApi.getAllRoles(userInfo.id, communityId).map { it.toApi() } 
+            return roleApi.getAllRoles(userInfo.id, communityId).map { it.toApi() }
         } catch (e: FeignException) {
             throw ResponseStatusException(HttpStatusCode.valueOf(e.status()))
         }

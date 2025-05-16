@@ -33,7 +33,7 @@ class VoiceController(
     ): List<GatewayVoiceDto> {
         try {
             val userInfo = SecurityContextHolder.getContext().authentication.principal as UserInfo
-            return voiceApi.getAllVoices(userInfo.id, communityId).map { it.toApi() } 
+            return voiceApi.getAllVoices(userInfo.id, communityId).map { it.toApi() }
         } catch (e: FeignException) {
             throw ResponseStatusException(HttpStatusCode.valueOf(e.status()))
         }
