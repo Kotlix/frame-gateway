@@ -66,7 +66,7 @@ jobs:
       - name: Deploy to k8s
         run: |
           envsubst < ./k8s/configmap.tpl.yaml > ./k8s/configmap.yaml
-          
+          minikube kubectl -- apply -f ./k8s/configmap.yaml
           KTX_CONFIG_HASH=$(sha256sum ./k8s/configmap.yaml | cut -d ' ' -f 1)
           
           envsubst < ./k8s/deployment.tpl.yaml > ./k8s/deployment.yaml
@@ -74,7 +74,6 @@ jobs:
           
           minikube kubectl -- apply -f ./k8s/deployment.yaml
           minikube kubectl -- apply -f ./k8s/service.yaml
-          minikube kubectl -- apply -f ./k8s/configmap.yaml
 
       - name: Clean up workspace
         if: always()
