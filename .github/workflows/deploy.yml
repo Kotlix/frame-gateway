@@ -49,12 +49,12 @@ jobs:
       - name: Get Docker image version
         if: ${{ !inputs.image_version }}
         run: |
-          KTX_IMAGE_VERSION=$(minikube kubectl -- get deployment frame-gateway -o=jsonpath='{.spec.template.spec.containers[0].image}' | cut -d ':' -f 2)
+          export KTX_IMAGE_VERSION=$(minikube kubectl -- get deployment frame-gateway -o=jsonpath='{.spec.template.spec.containers[0].image}' | cut -d ':' -f 2)
 
       - name: Set image version
         if: ${{ inputs.image_version }}
         run: |
-          KTX_IMAGE_VERSION=${{ inputs.image_version }}
+          export KTX_IMAGE_VERSION=${{ inputs.image_version }}
 
       - name: Build Docker image
         if: ${{ inputs.build_image }}
