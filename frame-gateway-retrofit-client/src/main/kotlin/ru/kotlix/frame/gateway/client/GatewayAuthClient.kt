@@ -10,25 +10,25 @@ import ru.kotlix.frame.gateway.api.dto.requests.GatewayBasicRegisterRequest
 
 interface GatewayAuthClient {
     @POST("/api/v1/auth/login")
-    fun basicLogin(
+    suspend fun basicLogin(
         @Body
         request: GatewayBasicLoginRequest,
     ): Response<String>
 
     @POST("/api/v1/auth/register")
-    fun basicRegister(
+    suspend fun basicRegister(
         @Body
         request: GatewayBasicRegisterRequest,
     ): Response<Void>
 
     @GET("/api/v1/auth/register-verify/{secret}")
-    fun verifyRegister(
+    suspend fun verifyRegister(
         @Path("secret")
         secret: String,
     ): Response<Void>
 
     @POST("/api/v1/auth/check/{token}")
-    fun checkAuth(
+    suspend fun checkAuth(
         @Path("token")
         token: String,
     ): Response<Void>

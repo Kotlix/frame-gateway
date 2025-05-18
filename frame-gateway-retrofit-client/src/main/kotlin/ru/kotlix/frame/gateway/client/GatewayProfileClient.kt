@@ -14,7 +14,7 @@ import ru.kotlix.frame.gateway.api.dto.requests.GatewayChangeUsernameRequest
 
 interface GatewayProfileClient {
     @POST("/api/v1/profile/email")
-    fun changeEmail(
+    suspend fun changeEmail(
         @Header("Authorization")
         token: String,
         @Body
@@ -22,7 +22,7 @@ interface GatewayProfileClient {
     ): Response<Void>
 
     @GET("/api/v1/profile/email-verify/{secret}")
-    fun changeEmailApply(
+    suspend fun changeEmailApply(
         @Header("Authorization")
         token: String,
         @Path("secret")
@@ -30,7 +30,7 @@ interface GatewayProfileClient {
     ): Response<Void>
 
     @POST("/api/v1/profile/username")
-    fun changeUsername(
+    suspend fun changeUsername(
         @Header("Authorization")
         token: String,
         @Body
@@ -38,7 +38,7 @@ interface GatewayProfileClient {
     ): Response<Void>
 
     @GET("/api/v1/profile/username-verify/{secret}")
-    fun changeUsernameApply(
+    suspend fun changeUsernameApply(
         @Header("Authorization")
         token: String,
         @Path("secret")
@@ -46,7 +46,7 @@ interface GatewayProfileClient {
     ): Response<Void>
 
     @POST("/api/v1/profile/password")
-    fun changePassword(
+    suspend fun changePassword(
         @Header("Authorization")
         token: String,
         @Body
@@ -54,7 +54,7 @@ interface GatewayProfileClient {
     ): Response<Void>
 
     @GET("/api/v1/profile/password-verify/{secret}")
-    fun changePasswordApply(
+    suspend fun changePasswordApply(
         @Header("Authorization")
         token: String,
         @Path("secret")
@@ -62,13 +62,13 @@ interface GatewayProfileClient {
     ): Response<Void>
 
     @GET("/api/v1/profile/info")
-    fun getMyProfileInfo(
+    suspend fun getMyProfileInfo(
         @Header("Authorization")
         token: String,
     ): Response<GatewayFullProfileInfoDto>
 
     @GET("/api/v1/profile/info/{userId}")
-    fun getProfileInfo(
+    suspend fun getProfileInfo(
         @Header("Authorization")
         token: String,
         @Path("userId")

@@ -1,0 +1,1433 @@
+openapi: 3.0.1
+info:
+  title: OpenAPI definition
+  version: v1
+security:
+  - BearerAuth: []
+paths:
+  /api/v1/voice/{id}:
+    get:
+      tags:
+        - voice-controller
+      operationId: getVoiceById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/GatewayVoiceDto'
+    put:
+      tags:
+        - voice-controller
+      operationId: updateVoice
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GatewayUpdateVoiceRequest'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/GatewayVoiceDto'
+    delete:
+      tags:
+        - voice-controller
+      operationId: deleteVoice
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+  /api/v1/role/{id}:
+    get:
+      tags:
+        - role-controller
+      operationId: getRole
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/GatewayRoleDto'
+    put:
+      tags:
+        - role-controller
+      operationId: updateRole
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GatewayUpdateRoleRequest'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/GatewayRoleDto'
+    delete:
+      tags:
+        - role-controller
+      operationId: deleteRole
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+  /api/v1/role/{id}/unassign/{targetId}:
+    put:
+      tags:
+        - role-controller
+      operationId: unassignRole
+      parameters:
+        - name: targetId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+  /api/v1/role/{id}/assign/{targetId}:
+    put:
+      tags:
+        - role-controller
+      operationId: assignRole
+      parameters:
+        - name: targetId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+  /api/v1/directory/{id}:
+    get:
+      tags:
+        - directory-controller
+      operationId: getDirectoryById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/GatewayDirectoryDto'
+    put:
+      tags:
+        - directory-controller
+      operationId: updateDirectory
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GatewayUpdateDirectoryRequest'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/GatewayDirectoryDto'
+    delete:
+      tags:
+        - directory-controller
+      operationId: deleteDirectory
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+  /api/v1/community/{communityId}:
+    get:
+      tags:
+        - community-controller
+      operationId: getById
+      parameters:
+        - name: communityId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/GatewayCommunityDto'
+    put:
+      tags:
+        - community-controller
+      operationId: update
+      parameters:
+        - name: communityId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GatewayUpdateCommunityRequest'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/GatewayCommunityDto'
+    delete:
+      tags:
+        - community-controller
+      operationId: delete
+      parameters:
+        - name: communityId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+  /api/v1/chat/{id}:
+    get:
+      tags:
+        - chat-controller
+      operationId: getChatById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/GatewayChatDto'
+    put:
+      tags:
+        - chat-controller
+      operationId: updateChat
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GatewayUpdateChatRequest'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/GatewayChatDto'
+    delete:
+      tags:
+        - chat-controller
+      operationId: deleteChat
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+  /api/v1/voice/{id}/leave:
+    post:
+      tags:
+        - voice-controller
+      operationId: leaveVoice
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+  /api/v1/voice/{id}/join:
+    post:
+      tags:
+        - voice-controller
+      operationId: joinVoice
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/GatewayConnectionGuide'
+  /api/v1/profile/username:
+    post:
+      tags:
+        - profile-controller
+      operationId: changeUsername
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GatewayChangeUsernameRequest'
+        required: true
+      responses:
+        '200':
+          description: OK
+  /api/v1/profile/password:
+    post:
+      tags:
+        - profile-controller
+      operationId: changePassword
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GatewayChangePasswordRequest'
+        required: true
+      responses:
+        '200':
+          description: OK
+  /api/v1/profile/email:
+    post:
+      tags:
+        - profile-controller
+      operationId: changeEmail
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GatewayChangeEmailRequest'
+        required: true
+      responses:
+        '200':
+          description: OK
+  /api/v1/community:
+    post:
+      tags:
+        - community-controller
+      operationId: create
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GatewayCreateCommunityRequest'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/GatewayCommunityDto'
+  /api/v1/community/{communityId}/voice:
+    get:
+      tags:
+        - voice-controller
+      operationId: getAllVoices
+      parameters:
+        - name: communityId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/GatewayVoiceDto'
+    post:
+      tags:
+        - voice-controller
+      operationId: createVoice
+      parameters:
+        - name: communityId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GatewayCreateVoiceRequest'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/GatewayVoiceDto'
+  /api/v1/community/{communityId}/token:
+    post:
+      tags:
+        - community-controller
+      operationId: createInviteToken
+      parameters:
+        - name: communityId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GatewayCreateTokenRequest'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/GatewayInviteTokenDto'
+  /api/v1/community/{communityId}/role:
+    get:
+      tags:
+        - role-controller
+      operationId: getAllRoles
+      parameters:
+        - name: communityId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/GatewayRoleDto'
+    post:
+      tags:
+        - role-controller
+      operationId: createRole
+      parameters:
+        - name: communityId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GatewayCreateRoleRequest'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/GatewayRoleDto'
+  /api/v1/community/{communityId}/leave:
+    post:
+      tags:
+        - community-controller
+      operationId: leaveCommunity
+      parameters:
+        - name: communityId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+  /api/v1/community/{communityId}/join:
+    post:
+      tags:
+        - community-controller
+      operationId: joinCommunity
+      parameters:
+        - name: communityId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+  /api/v1/community/{communityId}/directory:
+    get:
+      tags:
+        - directory-controller
+      operationId: getAllDirectories
+      parameters:
+        - name: communityId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/GatewayDirectoryDto'
+    post:
+      tags:
+        - directory-controller
+      operationId: createDirectory
+      parameters:
+        - name: communityId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GatewayCreateDirectoryRequest'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/GatewayDirectoryDto'
+  /api/v1/community/{communityId}/chat:
+    get:
+      tags:
+        - chat-controller
+      operationId: getAllChats
+      parameters:
+        - name: communityId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/GatewayChatDto'
+    post:
+      tags:
+        - chat-controller
+      operationId: createChat
+      parameters:
+        - name: communityId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GatewayCreateChatRequest'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/GatewayChatDto'
+  /api/v1/community-join-token:
+    post:
+      tags:
+        - community-controller
+      operationId: joinByInviteToken
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GatewayJoinByTokenRequest'
+        required: true
+      responses:
+        '200':
+          description: OK
+  /api/v1/chat/{chatId}/send:
+    post:
+      tags:
+        - message-controller
+      operationId: sendMessage
+      parameters:
+        - name: chatId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GatewaySendMessageRequest'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/GatewayMessageDto'
+  /api/v1/auth/register:
+    post:
+      security: []
+      tags:
+        - auth-controller
+      operationId: basicRegister
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GatewayBasicRegisterRequest'
+        required: true
+      responses:
+        '200':
+          description: OK
+  /api/v1/auth/login:
+    post:
+      security: []
+      tags:
+        - auth-controller
+      operationId: basicLogin
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GatewayBasicLoginRequest'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                type: string
+  /api/v1/auth/check/{token}:
+    post:
+      security: []
+      tags:
+        - auth-controller
+      operationId: checkAuth
+      parameters:
+        - name: token
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+  /api/v1/voice/servers:
+    get:
+      tags:
+        - server-controller
+      operationId: getServers
+      responses:
+        '200':
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                type: object
+                additionalProperties:
+                  type: array
+                  items:
+                    type: string
+  /api/v1/status/{userId}:
+    get:
+      tags:
+        - user-state-controller
+      operationId: getUserStatus
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/GatewayUserState'
+  /api/v1/profile/username-verify/{secret}:
+    get:
+      tags:
+        - profile-controller
+      operationId: changeUsernameApply
+      parameters:
+        - name: secret
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+  /api/v1/profile/password-verify/{secret}:
+    get:
+      tags:
+        - profile-controller
+      operationId: changePasswordApply
+      parameters:
+        - name: secret
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+  /api/v1/profile/info:
+    get:
+      tags:
+        - profile-controller
+      operationId: getMyProfileInfo
+      responses:
+        '200':
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/GatewayFullProfileInfoDto'
+  /api/v1/profile/info/{userId}:
+    get:
+      tags:
+        - profile-controller
+      operationId: getProfileInfo
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/GatewayProfileInfoDto'
+  /api/v1/profile/email-verify/{secret}:
+    get:
+      tags:
+        - profile-controller
+      operationId: changeEmailApply
+      parameters:
+        - name: secret
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+  /api/v1/my-communities:
+    get:
+      tags:
+        - community-controller
+      operationId: findAllMine
+      responses:
+        '200':
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/GatewayCommunityDto'
+  /api/v1/community/{communityId}/members:
+    get:
+      tags:
+        - community-controller
+      operationId: getMembers
+      parameters:
+        - name: communityId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/GatewayMemberDto'
+  /api/v1/chat/{chatId}/all:
+    get:
+      tags:
+        - message-controller
+      operationId: getMessages
+      parameters:
+        - name: chatId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: page
+          in: query
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: size
+          in: query
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/GatewayMessageDto'
+  /api/v1/chat-message/{id}:
+    get:
+      tags:
+        - message-controller
+      operationId: getById_1
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/GatewayMessageDto'
+  /api/v1/auth/register-verify/{secret}:
+    get:
+      security: []
+      tags:
+        - auth-controller
+      operationId: verifyRegister
+      parameters:
+        - name: secret
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+  /api/v1/all-communities:
+    get:
+      tags:
+        - community-controller
+      operationId: findAllPublicWithFilter
+      parameters:
+        - name: q
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: page
+          in: query
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: size
+          in: query
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/GatewayCommunityDto'
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+  schemas:
+    GatewayUpdateVoiceRequest:
+      required:
+        - directoryId
+        - name
+        - order
+      type: object
+      properties:
+        name:
+          type: string
+        directoryId:
+          type: integer
+          format: int64
+        order:
+          type: integer
+          format: int32
+    GatewayVoiceDto:
+      required:
+        - communityId
+        - directoryId
+        - id
+        - name
+        - order
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        communityId:
+          type: integer
+          format: int64
+        name:
+          type: string
+        directoryId:
+          type: integer
+          format: int64
+        order:
+          type: integer
+          format: int32
+    GatewayUpdateRoleRequest:
+      required:
+        - priority
+        - rights
+        - roleName
+      type: object
+      properties:
+        roleName:
+          type: string
+        priority:
+          type: integer
+          format: int32
+        rights:
+          type: object
+          additionalProperties:
+            type: boolean
+    GatewayRoleDto:
+      required:
+        - communityId
+        - id
+        - priority
+        - rights
+        - roleName
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        communityId:
+          type: integer
+          format: int64
+        roleName:
+          type: string
+        priority:
+          type: integer
+          format: int32
+        rights:
+          type: object
+          additionalProperties:
+            type: boolean
+    GatewayUpdateDirectoryRequest:
+      required:
+        - name
+        - order
+      type: object
+      properties:
+        name:
+          type: string
+        directoryId:
+          type: integer
+          format: int64
+        order:
+          type: integer
+          format: int32
+    GatewayDirectoryDto:
+      required:
+        - communityId
+        - id
+        - name
+        - order
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        communityId:
+          type: integer
+          format: int64
+        name:
+          type: string
+        directoryId:
+          type: integer
+          format: int64
+        order:
+          type: integer
+          format: int32
+    GatewayUpdateCommunityRequest:
+      required:
+        - isPublic
+        - name
+        - voiceName
+        - voiceRegion
+      type: object
+      properties:
+        name:
+          type: string
+        desc:
+          type: string
+        isPublic:
+          type: boolean
+        voiceRegion:
+          type: string
+        voiceName:
+          type: string
+    GatewayCommunityDto:
+      required:
+        - id
+        - isPublic
+        - name
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        description:
+          type: string
+        isPublic:
+          type: boolean
+    GatewayUpdateChatRequest:
+      required:
+        - directoryId
+        - name
+        - order
+      type: object
+      properties:
+        name:
+          type: string
+        directoryId:
+          type: integer
+          format: int64
+        order:
+          type: integer
+          format: int32
+    GatewayChatDto:
+      required:
+        - communityId
+        - directoryId
+        - id
+        - name
+        - order
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        communityId:
+          type: integer
+          format: int64
+        name:
+          type: string
+        directoryId:
+          type: integer
+          format: int64
+        order:
+          type: integer
+          format: int32
+    GatewayConnectionGuide:
+      required:
+        - channelId
+        - hostAddress
+        - shadowId
+      type: object
+      properties:
+        hostAddress:
+          type: string
+        channelId:
+          type: integer
+          format: int64
+        shadowId:
+          type: integer
+          format: int32
+    GatewayChangeUsernameRequest:
+      required:
+        - newUsername
+      type: object
+      properties:
+        newUsername:
+          type: string
+    GatewayChangePasswordRequest:
+      required:
+        - newPassword
+      type: object
+      properties:
+        newPassword:
+          type: string
+    GatewayChangeEmailRequest:
+      required:
+        - newEmail
+      type: object
+      properties:
+        newEmail:
+          type: string
+    GatewayCreateCommunityRequest:
+      required:
+        - isPublic
+        - name
+        - voiceName
+        - voiceRegion
+      type: object
+      properties:
+        name:
+          type: string
+        desc:
+          type: string
+        isPublic:
+          type: boolean
+        voiceRegion:
+          type: string
+        voiceName:
+          type: string
+    GatewayCreateVoiceRequest:
+      required:
+        - directoryId
+        - name
+        - order
+      type: object
+      properties:
+        name:
+          type: string
+        directoryId:
+          type: integer
+          format: int64
+        order:
+          type: integer
+          format: int32
+    GatewayCreateTokenRequest:
+      required:
+        - isOneTime
+      type: object
+      properties:
+        expiresAt:
+          type: string
+          format: date-time
+        isOneTime:
+          type: boolean
+    GatewayInviteTokenDto:
+      required:
+        - expiresAt
+        - isOneTime
+        - token
+      type: object
+      properties:
+        token:
+          type: string
+        expiresAt:
+          type: string
+          format: date-time
+        isOneTime:
+          type: boolean
+    GatewayCreateRoleRequest:
+      required:
+        - priority
+        - rights
+        - roleName
+      type: object
+      properties:
+        roleName:
+          type: string
+        priority:
+          type: integer
+          format: int32
+        rights:
+          type: object
+          additionalProperties:
+            type: boolean
+    GatewayCreateDirectoryRequest:
+      required:
+        - name
+        - order
+      type: object
+      properties:
+        name:
+          type: string
+        directoryId:
+          type: integer
+          format: int64
+        order:
+          type: integer
+          format: int32
+    GatewayCreateChatRequest:
+      required:
+        - directoryId
+        - name
+        - order
+      type: object
+      properties:
+        name:
+          type: string
+        directoryId:
+          type: integer
+          format: int64
+        order:
+          type: integer
+          format: int32
+    GatewayJoinByTokenRequest:
+      required:
+        - token
+      type: object
+      properties:
+        token:
+          type: string
+    GatewaySendMessageRequest:
+      required:
+        - message
+      type: object
+      properties:
+        message:
+          type: string
+    GatewayMessageDto:
+      required:
+        - authorId
+        - chatId
+        - createdAt
+        - id
+        - message
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        chatId:
+          type: integer
+          format: int64
+        authorId:
+          type: integer
+          format: int64
+        message:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+    GatewayBasicRegisterRequest:
+      required:
+        - email
+        - login
+        - password
+        - username
+      type: object
+      properties:
+        login:
+          type: string
+        password:
+          type: string
+        username:
+          type: string
+        email:
+          type: string
+    GatewayBasicLoginRequest:
+      required:
+        - login
+        - password
+      type: object
+      properties:
+        login:
+          type: string
+        password:
+          type: string
+    GatewayUserState:
+      required:
+        - lastActive
+        - online
+        - userId
+      type: object
+      properties:
+        userId:
+          type: integer
+          format: int64
+        online:
+          type: boolean
+        lastActive:
+          type: string
+          format: date-time
+    GatewayFullProfileInfoDto:
+      required:
+        - email
+        - id
+        - login
+        - username
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        login:
+          type: string
+        username:
+          type: string
+        email:
+          type: string
+    GatewayProfileInfoDto:
+      required:
+        - username
+      type: object
+      properties:
+        username:
+          type: string
+    GatewayMemberDto:
+      required:
+        - userId
+      type: object
+      properties:
+        userId:
+          type: integer
+          format: int64
