@@ -7,6 +7,11 @@ spec:
   selector:
     matchLabels:
       app: ${KTX_APP_NAME}
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
   template:
     metadata:
       annotations:
@@ -28,12 +33,6 @@ spec:
             limits:
               memory: "512Mi"
               cpu: "250m"
-          replicas: 1
-          strategy:
-            type: RollingUpdate
-            rollingUpdate:
-              maxSurge: 1
-              maxUnavailable: 1
           volumeMounts:
             - name: config-volume
               mountPath: /config
