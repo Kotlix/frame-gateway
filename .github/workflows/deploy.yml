@@ -64,11 +64,12 @@ jobs:
 
       - name: Deploy to k8s
         run: |
-          KTX_CONFIG_HASH=$(sha256sum configmap.yaml | cut -d ' ' -f 1)
+          envsubst < ./k8s/configmap.tpl.yaml > ./k8s/configmap.yaml
+          
+          KTX_CONFIG_HASH=$(sha256sum ./k8s/configmap.yaml | cut -d ' ' -f 1)
           
           envsubst < ./k8s/deployment.tpl.yaml > ./k8s/deployment.yaml
           envsubst < ./k8s/service.tpl.yaml > ./k8s/service.yaml
-          envsubst < ./k8s/configmap.tpl.yaml > ./k8s/configmap.yaml
           
           minikube kubectl -- apply -f ./k8s/deployment.yaml
           minikube kubectl -- apply -f ./k8s/service.yaml
