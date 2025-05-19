@@ -114,4 +114,16 @@ class VoiceController(
             throw ResponseStatusException(HttpStatusCode.valueOf(e.status()))
         }
     }
+
+    @GetMapping("/voice/{id}/users")
+    override fun getVoiceUsers(
+        @PathVariable("id") id: Long,
+    ): List<Long> {
+        try {
+            val userInfo = SecurityContextHolder.getContext().authentication.principal as UserInfo
+            return voiceApi.getVoiceUsers(userInfo.id, id)
+        } catch (e: FeignException) {
+            throw ResponseStatusException(HttpStatusCode.valueOf(e.status()))
+        }
+    }
 }
