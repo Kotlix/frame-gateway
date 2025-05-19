@@ -25,4 +25,6 @@ interface GatewayVoiceApi {
     fun joinVoice(id: Long): GatewayConnectionGuide
 
     fun leaveVoice(id: Long)
+
+    fun getVoiceUsers(id: Long): List<Long>
 }
