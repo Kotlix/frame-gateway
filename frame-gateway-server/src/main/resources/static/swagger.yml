@@ -5,6 +5,28 @@ info:
 security:
   - BearerAuth: []
 paths:
+  /api/v1/voice/{id}/users:
+    get:
+      tags:
+        - voice-controller
+      operationId: getVoiceUsers
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                type: array
+                items:
+                  type: integer
+                  format: int64
   /api/v1/voice/{id}:
     get:
       tags:
@@ -161,6 +183,33 @@ paths:
       responses:
         '200':
           description: OK
+  /api/v1/community/{communityId}/user/{targetId}/role:
+    put:
+      tags:
+        - role-controller
+      operationId: assignRole
+      parameters:
+        - name: targetId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: communityId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/GatewayRoleDto'
   /api/v1/directory/{id}:
     get:
       tags:
