@@ -73,4 +73,11 @@ interface GatewayVoiceClient {
         @Path("id")
         id: Long,
     ): Response<Void>
+
+    @GET("/api/v1/voice/{id}/users")
+    suspend fun getVoiceUsers(
+        @Header("Authorization")
+        token: String,
+        @Path("id") id: Long,
+    ): Response<List<Long>>
 }
