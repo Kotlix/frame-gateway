@@ -30,4 +30,9 @@ interface GatewayRoleApi {
         targetId: Long,
         id: Long,
     )
+
+    fun getUserRoles(
+        communityId: Long,
+        targetId: Long,
+    ): List<GatewayRoleDto>
 }

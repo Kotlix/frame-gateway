@@ -49,4 +49,34 @@ interface GatewayRoleClient {
         token: String,
         @Path("id") id: Long,
     ): Response<Void>
+
+    @PUT("/api/v1/role/{id}/unassign/{targetId}")
+    suspend fun unassignRole(
+        @Header("Authorization")
+        token: String,
+        @Path("id")
+        id: Long,
+        @Path("targetId")
+        targetId: Long,
+    ): Response<Void>
+
+    @PUT("/api/v1/role/{id}/assign/{targetId}")
+    suspend fun assignRole(
+        @Header("Authorization")
+        token: String,
+        @Path("targetId")
+        targetId: Long,
+        @Path("id")
+        id: Long,
+    ): Response<Void>
+
+    @GET("/api/v1/community/{communityId}/user/{targetId}/role")
+    suspend fun getUserRoles(
+        @Header("Authorization")
+        token: String,
+        @Path("communityId")
+        communityId: Long,
+        @Path("targetId")
+        targetId: Long,
+    ): Response<List<GatewayRoleDto>>
 }

@@ -117,4 +117,19 @@ class RoleController(
             throw ResponseStatusException(HttpStatusCode.valueOf(e.status()))
         }
     }
+
+    @GetMapping("/community/{communityId}/user/{targetId}/role")
+    override fun getUserRoles(
+        @PathVariable("communityId")
+        communityId: Long,
+        @PathVariable("targetId")
+        targetId: Long,
+    ): List<GatewayRoleDto> {
+        try {
+            val userInfo = SecurityContextHolder.getContext().authentication.principal as UserInfo
+            return roleApi.getUserRoles(userInfo.id, communityId, targetId).map { it.toApi() }
+        } catch (e: FeignException) {
+            throw ResponseStatusException(HttpStatusCode.valueOf(e.status()))
+        }
+    }
 }
