@@ -141,6 +141,7 @@ fun VoiceDto.toApi() =
 fun ConnectionGuide.toApi() =
     GatewayConnectionGuide(
         hostAddress = hostAddress,
+        secret = secret,
         channelId = channelId,
         shadowId = shadowId,
     )
