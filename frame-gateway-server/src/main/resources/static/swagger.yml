@@ -184,7 +184,7 @@ paths:
         '200':
           description: OK
   /api/v1/community/{communityId}/user/{targetId}/role:
-    put:
+    get:
       tags:
         - role-controller
       operationId: assignRole
